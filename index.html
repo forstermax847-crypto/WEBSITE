@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matty's — big breakfasts in Bath, delivered</title>
+<meta name="description" content="Matty's is an award-winning independent cafe in Bath. Fantastic portions, fair prices, seats 120 with a garden, open 363 days a year — and the only cafe in Bath delivering full English breakfasts, free on orders over £12.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M15 95 V50 a35 35 0 0 1 70 0 V95 Z' fill='%23C9973F'/></svg>">
+<link rel="stylesheet" href="fonts.css">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+  :root {
+    --stone: #E8DCC0;        /* Bath limestone in afternoon light */
+    --stone-deep: #DCCBA4;   /* the same stone, in shadow */
+    --milk: #F7F0DF;         /* steamed milk */
+    --espresso: #2B1B10;     /* the bottom of the cup */
+    --honey: #C9973F;        /* Bath stone gold, concentrated */
+    --leaf: #5A7A32;     /* Matty's green, deepened for text */
+    --apple: #8FB25A;    /* the green from the original site */
+    --display: "Young Serif", "Iowan Old Style", Georgia, serif;
+    --body: "Work Sans", "Gill Sans", system-ui, sans-serif;
+    --receipt: "IBM Plex Mono", "Courier New", monospace;
+    --arch: 999px 999px 0 0;
+    --gutter: clamp(1.25rem, 4vw, 3rem);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+  body {
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--espresso);
+    background: var(--stone);
+  }
+  ::selection { background: var(--honey); color: var(--espresso); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; border-radius: 2px; }
+  img { max-width: 100%; display: block; }
+
+  .wrap { max-width: 72rem; margin-inline: auto; padding-inline: var(--gutter); }
+
+  .eyebrow {
+    font-family: var(--receipt);
+    font-size: 0.8125rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--leaf);
+  }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--stone) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in srgb, var(--espresso) 14%, transparent);
+  }
+  .bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding-block: 0.8rem;
+  }
+  .wordmark {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.55rem;
+  }
+  .wordmark svg { width: 1.15em; height: 1.15em; }
+  .logo-mark { height: 52px; width: auto; mix-blend-mode: multiply; }
+  @media (max-width: 40rem) { .logo-mark { height: 42px; } }
+  nav ul { display: flex; gap: clamp(0.9rem, 3vw, 2rem); list-style: none; }
+  nav a {
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-bottom: 2px solid transparent; padding-bottom: 2px;
+  }
+  nav a:hover { border-bottom-color: var(--honey); }
+  .open-pill {
+    font-family: var(--receipt); font-size: 0.78rem; letter-spacing: 0.08em;
+    background: var(--espresso); color: var(--milk);
+    padding: 0.45em 0.9em; border-radius: 999px; white-space: nowrap;
+  }
+  @media (max-width: 40rem) {
+    .open-pill { display: none; }
+    .wordmark { font-size: 1.15rem; }
+    nav ul { gap: 0.8rem; }
+    nav a { font-size: 0.85rem; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding-block: clamp(4rem, 10vw, 8rem) clamp(3rem, 7vw, 5.5rem);
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; justify-content: center; gap: 0.9rem;
+    margin-bottom: 1.6rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ""; height: 1px; width: clamp(2rem, 6vw, 5rem);
+    background: var(--apple); opacity: 0.7;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(4rem, 15vw, 12.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+  /* steam rises from the apostrophe */
+  .steam {
+    position: absolute;
+    left: 76%;
+    top: -0.34em;
+    width: 0.34em; height: 0.4em;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .steam path {
+    fill: none;
+    stroke: var(--apple);
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0;
+    animation: rise 4s ease-in-out infinite;
+  }
+  .steam path:nth-child(2) { animation-delay: 1.33s; }
+  .steam path:nth-child(3) { animation-delay: 2.66s; }
+  @keyframes rise {
+    0%   { opacity: 0; transform: translateY(16px) scale(0.92); }
+    30%  { opacity: 0.5; }
+    70%  { opacity: 0.2; }
+    100% { opacity: 0; transform: translateY(-22px) scale(1.06); }
+  }
+  .hero p.lede {
+    max-width: 34rem;
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    margin: 2rem auto 0;
+    font-weight: 300;
+  }
+  .hero p.lede strong { font-weight: 700; }
+
+  /* ---------- ticker divider ---------- */
+  .ticker {
+    border-block: 1px solid color-mix(in srgb, var(--espresso) 18%, transparent);
+    background: var(--stone-deep);
+    padding-block: 0.65rem;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-track { display: inline-flex; animation: slide 48s linear infinite; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  .ticker span {
+    font-family: var(--receipt);
+    font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding-right: 1.1em;
+  }
+  .ticker .dot { color: var(--honey); margin-inline: 1.1em; }
+
+  /* ---------- sections ---------- */
+  section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+  .section-head { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+  .section-head h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  /* ---------- story ---------- */
+  .story-grid {
+    display: grid; grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 6vw, 5rem); align-items: start;
+  }
+  @media (max-width: 50rem) { .story-grid { grid-template-columns: 1fr; } }
+  .story-copy p + p { margin-top: 1.1em; }
+  .story-copy > p:first-of-type::first-letter {
+    font-family: var(--display);
+    font-size: 3.4em; float: left;
+    line-height: 0.8; padding-right: 0.12em; padding-top: 0.08em;
+    color: var(--honey);
+  }
+  .story-side { display: flex; flex-direction: column; gap: 1.8rem; }
+  .story-photo {
+    border: 1.5px solid var(--espresso);
+    border-radius: var(--arch);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+  }
+  .story-photo img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.22) saturate(0.85) contrast(0.98); }
+  .story-facts {
+    border-top: 3px solid var(--espresso);
+    font-size: 0.95rem;
+  }
+  .story-facts div {
+    display: flex; justify-content: space-between; gap: 1rem;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--espresso) 18%, transparent);
+  }
+  .story-facts dt { font-weight: 700; }
+  .story-facts dd { text-align: right; font-family: var(--receipt); font-size: 0.85rem; }
+
+  /* ---------- menu ---------- */
+  .menu { background: var(--milk); border-block: 1px solid color-mix(in srgb, var(--espresso) 14%, transparent); }
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: start;
+  }
+  @media (max-width: 56rem) { .menu-grid { grid-template-columns: 1fr; max-width: 30rem; margin-inline: auto; } }
+  .menu-card {
+    background: var(--stone);
+    border: 1.5px solid var(--espresso);
+    border-radius: var(--arch);
+    padding: clamp(2.2rem, 4vw, 3rem) clamp(1.4rem, 3vw, 2rem) 1.8rem;
+  }
+  .menu-card h3 {
+    font-family: var(--display); font-weight: 400;
+    font-size: 1.5rem; text-align: center;
+    padding-bottom: 1.2rem; margin-bottom: 1.2rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--espresso) 25%, transparent);
+  }
+  .menu-card h3 small {
+    display: block; font-family: var(--receipt); font-size: 0.72rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--leaf);
+    margin-top: 0.45rem;
+  }
+  .menu ul { list-style: none; }
+  .menu li { display: flex; align-items: baseline; gap: 0.5em; padding-block: 0.42rem; }
+  .menu .item { font-weight: 600; font-size: 0.98rem; }
+  .menu .leader { flex: 1; border-bottom: 2px dotted color-mix(in srgb, var(--espresso) 40%, transparent); transform: translateY(-4px); }
+  .menu .price { font-family: var(--receipt); font-size: 0.9rem; white-space: nowrap; }
+  .menu .note { font-size: 0.85rem; font-weight: 300; color: color-mix(in srgb, var(--espresso) 75%, var(--stone)); display: block; }
+
+  .boards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+  }
+  @media (max-width: 56rem) { .boards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 36rem) { .boards { grid-template-columns: 1fr; } }
+  .board { border-top: 3px solid var(--espresso); padding-top: 1rem; }
+  .board h4 {
+    font-family: var(--display); font-weight: 400; font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .board h4 small {
+    font-family: var(--receipt); font-size: 0.68rem; font-weight: 400;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--leaf);
+    margin-left: 0.6em;
+  }
+  .board li { padding-block: 0.28rem; }
+  .board .item { font-weight: 400; font-size: 0.95rem; }
+  .menu-foot { text-align: center; margin-top: 2.2rem; font-size: 0.9rem; font-weight: 300; }
+  .menu-foot em { font-style: normal; font-weight: 700; color: var(--leaf); }
+
+  /* ---------- delivery ---------- */
+  .delivery { background: var(--leaf); color: var(--milk); text-align: center; }
+  .delivery .eyebrow { color: var(--stone); }
+  .delivery h2 {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1;
+    max-width: 24ch; margin: 0.5rem auto 0;
+  }
+  .delivery p.pitch { max-width: 38rem; margin: 1.4rem auto 0; font-weight: 300; font-size: 1.1rem; }
+  .delivery .phone {
+    display: inline-block; margin-top: 2rem;
+    font-family: var(--display); font-size: clamp(1.5rem, 4vw, 2.4rem);
+    color: var(--milk); text-decoration: none;
+    border-bottom: 3px solid var(--honey); padding-bottom: 0.1em;
+  }
+  .delivery .phone:hover { color: var(--honey); }
+  .delivery .times {
+    font-family: var(--receipt); font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-top: 1.4rem; opacity: 0.85;
+  }
+  .platforms {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 0.6rem;
+    margin-top: 1.6rem; list-style: none;
+  }
+  .platforms li { display: contents; }
+  .platforms a, .platforms .or {
+    font-family: var(--receipt); font-size: 0.78rem; letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .platforms a {
+    display: inline-block; text-decoration: none;
+    border: 1px solid color-mix(in srgb, var(--milk) 45%, transparent);
+    border-radius: 999px; padding: 0.35em 1em;
+  }
+  .platforms a:hover { border-color: var(--honey); color: var(--honey); }
+  .platforms .or { opacity: 0.8; padding: 0.35em 0.2em; align-self: center; }
+
+  /* ---------- reviews ---------- */
+  .reviews-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  @media (max-width: 50rem) { .reviews-grid { grid-template-columns: 1fr; } }
+  .reviews blockquote {
+    border-top: 3px solid var(--espresso);
+    padding-top: 1.3rem;
+  }
+  .reviews blockquote::before {
+    content: "\201C";
+    display: block;
+    font-family: var(--display);
+    font-size: 3rem; line-height: 0.6;
+    color: var(--honey);
+    margin-bottom: 0.5rem;
+  }
+  .reviews blockquote p { font-weight: 300; font-size: 1.05rem; }
+  .reviews cite {
+    display: block; margin-top: 1rem;
+    font-style: normal; font-family: var(--receipt);
+    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--leaf);
+  }
+
+  /* ---------- gallery ---------- */
+  .arches {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem); align-items: end;
+  }
+  @media (max-width: 56rem) { .arches { grid-template-columns: 1fr; max-width: 26rem; margin-inline: auto; } }
+  .arch-fig { margin: 0; }
+  .arch-fig .frame {
+    border-radius: var(--arch);
+    overflow: hidden;
+    border: 1.5px solid var(--espresso);
+    aspect-ratio: 3 / 4;
+    position: relative;
+    background: var(--stone-deep);
+  }
+  .arch-fig:nth-child(3n+2) .frame { aspect-ratio: 3 / 4.6; }
+  .arch-fig img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.22) saturate(0.85) contrast(0.98); }
+  .arch-fig .frame::after {
+    content: ""; position: absolute; inset: 0;
+    background: color-mix(in srgb, var(--honey) 12%, transparent);
+    mix-blend-mode: multiply; pointer-events: none;
+  }
+  .arch-fig figcaption {
+    font-family: var(--receipt); font-size: 0.8rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-align: center; margin-top: 0.9rem;
+  }
+
+  /* ---------- find us ---------- */
+  .find { background: var(--espresso); color: var(--milk); }
+  .find .eyebrow { color: var(--honey); }
+  .find-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+  @media (max-width: 50rem) { .find-grid { grid-template-columns: 1fr; } }
+  .find h2 { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin-top: 0.5rem; }
+  .address { font-style: normal; margin-top: 1.6rem; font-size: 1.15rem; line-height: 1.7; }
+  .address a { color: var(--honey); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+  .find-photo {
+    border: 1.5px solid color-mix(in srgb, var(--milk) 35%, transparent);
+    border-radius: var(--arch);
+    overflow: hidden;
+    max-width: 19rem;
+    margin-top: 2.4rem;
+    aspect-ratio: 3 / 3.3;
+  }
+  .find-photo img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.22) saturate(0.85) contrast(0.98); }
+  .walks { margin-top: 2rem; list-style: none; font-size: 0.95rem; font-weight: 300; }
+  .walks li { display: flex; gap: 0.7em; padding-block: 0.4rem; align-items: baseline; }
+  .walks .min { font-family: var(--receipt); color: var(--honey); min-width: 4.4em; font-size: 0.85rem; }
+  .hours {
+    border: 1px solid color-mix(in srgb, var(--milk) 30%, transparent);
+    border-radius: var(--arch);
+    padding: clamp(2.4rem, 4vw, 3.2rem) clamp(1.6rem, 3vw, 2.4rem) 2rem;
+    font-family: var(--receipt);
+    align-self: start;
+  }
+  .hours h3 {
+    font-family: var(--display); font-weight: 400; font-size: 1.4rem;
+    text-align: center; margin-bottom: 1.4rem;
+  }
+  .hours table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .hours td { padding-block: 0.55rem; border-bottom: 1px dashed color-mix(in srgb, var(--milk) 25%, transparent); }
+  .hours td:last-child { text-align: right; }
+  .hours .today td { color: var(--honey); font-weight: 700; }
+  .hours p { font-size: 0.8rem; text-align: center; margin-top: 1.3rem; opacity: 0.75; }
+
+  /* ---------- footer ---------- */
+  footer { background: var(--espresso); color: var(--milk); border-top: 1px solid color-mix(in srgb, var(--milk) 18%, transparent); }
+  .foot {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+    align-items: center; justify-content: space-between;
+    padding-block: 2rem;
+  }
+  .foot .wordmark { color: var(--milk); }
+  .foot ul { display: flex; gap: 1.5rem; list-style: none; }
+  .foot a { text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+  .foot a:hover { color: var(--honey); }
+  .foot .fine { font-family: var(--receipt); font-size: 0.75rem; opacity: 0.7; width: 100%; }
+
+  /* ---------- reveal on scroll (only hidden when JS is running) ---------- */
+  .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="wordmark" href="#top" aria-label="Matty's — back to top">
+      <img class="logo-mark" src="img/logo.png" alt="Matty's" width="492" height="298">
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#delivery">Delivery</a></li>
+        <li><a href="#find">Find us</a></li>
+      </ul>
+    </nav>
+    <span class="open-pill" id="openPill">OPEN TODAY 7.30–16.00</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero wrap">
+    <p class="hero-eyebrow eyebrow">Independent cafe · Bath · est. 2007</p>
+    <h1>
+      Matty&rsquo;s
+      <svg class="steam" viewBox="0 0 40 60" aria-hidden="true">
+        <path d="M20 55 C 12 45, 28 35, 20 25 C 14 17, 24 10, 20 3" />
+        <path d="M20 55 C 27 46, 13 36, 20 26 C 25 18, 15 11, 20 4" />
+        <path d="M20 55 C 14 47, 26 38, 19 27 C 14 19, 25 12, 21 5" />
+      </svg>
+    </h1>
+    <p class="lede">Matt has been cooking Bath's breakfasts for nineteen years. <strong>Fantastic portions, fair prices</strong> — and the only full English in the city delivered free to your door.</p>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>
+        Open 363 days a year <span class="dot">●</span>
+        Free delivery on orders over £12 <span class="dot">●</span>
+        Seats 120, garden out back <span class="dot">●</span>
+        Free WiFi <span class="dot">●</span>
+        No or less spread on request <span class="dot">●</span>
+        Award-winning since 2007 <span class="dot">●</span>
+      </span>
+      <span>
+        Open 363 days a year <span class="dot">●</span>
+        Free delivery on orders over £12 <span class="dot">●</span>
+        Seats 120, garden out back <span class="dot">●</span>
+        Free WiFi <span class="dot">●</span>
+        No or less spread on request <span class="dot">●</span>
+        Award-winning since 2007 <span class="dot">●</span>
+      </span>
+    </div>
+  </div>
+
+  <section id="story" class="wrap" aria-labelledby="story-h">
+    <div class="section-head reveal">
+      <p class="eyebrow">The story</p>
+      <h2 id="story-h">A corner of Bath, kept warm</h2>
+    </div>
+    <div class="story-grid">
+      <div class="story-copy reveal">
+        <p>Matt was born and raised in Bath, and he's been behind this counter nearly every day for nineteen years — the cafe runs 363 days a year. Some might say workaholic. He'd put it more simply: <em>"I just love food."</em></p>
+        <p>The belief hasn't changed: good value, fantastic portions, and proper homemade cooking. Breakfast is the most important meal of the day, and a proper plateful is a healthier way to eat than most people give it credit for — especially with our no-or-less-spread option, and nothing swimming in fat.</p>
+        <p>It has grown into one of the largest cafes in Bath: an award-winning room seating 120, with a wonderful garden for the sunny mornings. And if you can't come to us, we'll come to you — Matty's is the only cafe in Bath that delivers full English breakfasts to your door, free on orders over £12.</p>
+      </div>
+      <div class="story-side reveal">
+      <div class="story-photo">
+        <img src="img/window-seats.jpg" alt="The bay window at Matty's with the painted logo, tables set below" loading="lazy" onerror="this.parentElement.remove()" width="1100" height="1100">
+      </div>
+      <dl class="story-facts">
+        <div><dt>The owner</dt><dd>MATT, SINCE 2007</dd></div>
+        <div><dt>The room</dt><dd>SEATS 120, PLUS GARDEN</dd></div>
+        <div><dt>Days open</dt><dd>363 A YEAR</dd></div>
+        <div><dt>Delivery</dt><dd>FREE, £12 MINIMUM</dd></div>
+        <div><dt>The WiFi</dt><dd>FREE, OBVIOUSLY</dd></div>
+        <div><dt>The spread</dt><dd>NO, OR LESS — YOUR CALL</dd></div>
+      </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="menu" aria-labelledby="menu-h">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">The menu</p>
+        <h2 id="menu-h">Fantastic portions, fair prices</h2>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card reveal">
+          <h3>Breakfasts <small>grilled, not fried</small></h3>
+          <ul>
+            <li><span class="item">Full English</span><span class="leader"></span><span class="price">£9.50</span></li>
+            <li><span class="note">Grilled sausage, 2 grilled bacon, choice of egg, beans, hash browns, toast.</span></li>
+            <li><span class="item">Big Boy Breakfast</span><span class="leader"></span><span class="price">£11.50</span></li>
+            <li><span class="note">2 sausages, 3 bacon, 2 eggs, beans, hash browns, mushroom or black pudding, toast. Left one reviewer "full all day".</span></li>
+            <li><span class="item">Veggie Breakfast</span><span class="leader"></span><span class="price">£9.95</span></li>
+            <li><span class="note">2 eggs, beans, tomatoes, mushrooms, hash browns, 2 slices of toast.</span></li>
+            <li><span class="note">Saturated fat and salt reduced across the board. Eggs poached, scrambled or fried — your call.</span></li>
+          </ul>
+        </div>
+        <div class="menu-card reveal">
+          <h3>Doorstop Sandwiches <small>or toastie style</small></h3>
+          <ul>
+            <li><span class="item">Grilled bacon</span><span class="leader"></span><span class="price">£3.25</span></li>
+            <li><span class="item">Grilled bacon &amp; egg</span><span class="leader"></span><span class="price">£3.65</span></li>
+            <li><span class="item">Grilled sausage</span><span class="leader"></span><span class="price">£3.25</span></li>
+            <li><span class="item">Grilled sausage &amp; egg</span><span class="leader"></span><span class="price">£3.65</span></li>
+            <li><span class="item">Sausage &amp; bacon</span><span class="leader"></span><span class="price">£3.95</span></li>
+            <li><span class="item">Breakfast bap</span><span class="leader"></span><span class="price">£4.50</span></li>
+            <li><span class="note">Bacon, choice of egg, sausage, mushroom.</span></li>
+            <li><span class="item">Ham salad</span><span class="leader"></span><span class="price">£3.95</span></li>
+            <li><span class="item">Ham &amp; pickle</span><span class="leader"></span><span class="price">£3.65</span></li>
+            <li><span class="item">Tuna mayo</span><span class="leader"></span><span class="price">£3.25</span></li>
+            <li><span class="item">Tuna &amp; sweetcorn</span><span class="leader"></span><span class="price">£3.65</span></li>
+            <li><span class="item">Cheese</span><span class="leader"></span><span class="price">£3.25</span></li>
+            <li><span class="item">Cheese &amp; pickle</span><span class="leader"></span><span class="price">£3.65</span></li>
+            <li><span class="item">Cheese &amp; onion</span><span class="leader"></span><span class="price">£3.65</span></li>
+            <li><span class="item">Egg mayo</span><span class="leader"></span><span class="price">£3.25</span></li>
+            <li><span class="item">Chicken mayo</span><span class="leader"></span><span class="price">£3.95</span></li>
+            <li><span class="item">Chicken &amp; sweetcorn</span><span class="leader"></span><span class="price">£4.25</span></li>
+            <li><span class="note">Granary, brown or white. No or less spread on request; bacon rind removed on request.</span></li>
+          </ul>
+        </div>
+        <div class="menu-card reveal">
+          <h3>Homemade Specials <small>all £10.45</small></h3>
+          <ul>
+            <li><span class="item">Cottage pie</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="note">Lean mince, carrots and peas.</span></li>
+            <li><span class="item">Steak &amp; kidney</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="item">Chicken &amp; mushroom</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="item">Minted lamb</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="item">Lasagne</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="item">Chicken curry</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="item">Sweet &amp; sour chicken</span><span class="leader"></span><span class="price">£10.45</span></li>
+            <li><span class="note">All homemade. Served with peas, rice, beans or chips.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="boards">
+        <div class="board reveal">
+          <h4>Burgers &amp; plates</h4>
+          <ul>
+            <li><span class="item">¼ lb cheese burger</span><span class="leader"></span><span class="price">£8.95</span></li>
+            <li><span class="item">½ lb cheese burger</span><span class="leader"></span><span class="price">£9.95</span></li>
+            <li><span class="item">Bacon cheese burger</span><span class="leader"></span><span class="price">£9.50</span></li>
+            <li><span class="item">Chicken burger</span><span class="leader"></span><span class="price">£8.95</span></li>
+            <li><span class="item">Ham, choice of egg, chips</span><span class="leader"></span><span class="price">£9.50</span></li>
+            <li><span class="item">Scampi, chips and peas</span><span class="leader"></span><span class="price">£9.95</span></li>
+            <li><span class="item">Beans on toast</span><span class="leader"></span><span class="price">£4.95</span></li>
+            <li><span class="item">Eggs on toast</span><span class="leader"></span><span class="price">£4.95</span></li>
+          </ul>
+        </div>
+        <div class="board reveal">
+          <h4>Jackets <small>cheese, beans, tuna</small></h4>
+          <ul>
+            <li><span class="item">1 filling</span><span class="leader"></span><span class="price">£6.95</span></li>
+            <li><span class="item">2 fillings</span><span class="leader"></span><span class="price">£7.50</span></li>
+          </ul>
+        </div>
+        <div class="board reveal">
+          <h4>Extras</h4>
+          <ul>
+            <li><span class="item">Bacon, sausage, black pudding, mushrooms or hash browns</span><span class="leader"></span><span class="price">£1.50</span></li>
+            <li><span class="item">Chips, garlic bread or onion rings</span><span class="leader"></span><span class="price">£3.75</span></li>
+          </ul>
+        </div>
+        <div class="board reveal">
+          <h4>Drinks</h4>
+          <ul>
+            <li><span class="item">Tea</span><span class="leader"></span><span class="price">£1.60</span></li>
+            <li><span class="item">Coffee</span><span class="leader"></span><span class="price">£1.80</span></li>
+            <li><span class="item">Hot chocolate</span><span class="leader"></span><span class="price">£2.95</span></li>
+            <li><span class="item">Milkshakes, 3 flavours</span><span class="leader"></span><span class="price">£1.90</span></li>
+            <li><span class="item">Orange juice or milk</span><span class="leader"></span><span class="price">£1.90</span></li>
+            <li><span class="item">Red Bull, Monster, Relentless or Powerade</span><span class="leader"></span><span class="price">£1.90</span></li>
+            <li><span class="item">Cans</span><span class="leader"></span><span class="price">£1.50</span></li>
+            <li><span class="item">Bottles or water 50cl</span><span class="leader"></span><span class="price">£1.40</span></li>
+          </ul>
+        </div>
+        <div class="board reveal">
+          <h4>Posh coffee</h4>
+          <ul>
+            <li><span class="item">Espresso</span><span class="leader"></span><span class="price">£2.25</span></li>
+            <li><span class="item">Americano</span><span class="leader"></span><span class="price">£2.50</span></li>
+            <li><span class="item">Latte</span><span class="leader"></span><span class="price">£2.75</span></li>
+            <li><span class="item">Cappuccino</span><span class="leader"></span><span class="price">£2.95</span></li>
+            <li><span class="item">Mocha</span><span class="leader"></span><span class="price">£2.95</span></li>
+          </ul>
+        </div>
+        <div class="board reveal">
+          <h4>Kiddies meals</h4>
+          <ul>
+            <li><span class="item">Chicken nuggets, chips and beans</span></li>
+            <li><span class="item">Fish fingers, chips and beans</span></li>
+            <li><span class="item">Sausage, chips and beans</span></li>
+            <li><span class="item">Kids breakfast</span></li>
+            <li><span class="note">Sausage, bacon, egg, beans, toast.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="menu-foot reveal">No or less spread, grilled not fried, rind off the bacon — however you like it. <em>Just ask.</em></p>
+    </div>
+  </section>
+
+  <section id="delivery" class="delivery" aria-labelledby="delivery-h">
+    <div class="wrap">
+      <p class="eyebrow reveal">Delivery</p>
+      <h2 id="delivery-h" class="reveal">The full English, to your front door</h2>
+      <p class="pitch reveal">The only cafe in Bath that delivers cooked breakfasts — hot, on time, and exactly how you ordered it. For the morning after, the office, or anyone who'd rather not get up. Ring your order through for delivery, or phone ahead and collect.</p>
+      <p class="pitch reveal"><strong>Delivery is free</strong> — minimum order £12, food only.</p>
+      <a class="phone reveal" href="tel:+441225444986">01225 444986</a>
+      <p class="times reveal">Delivering Mon–Sat 7.00–14.00 · Sun 8.00–13.00</p>
+      <ul class="platforms reveal">
+        <li><span class="or">Also on</span></li>
+        <li><a href="https://www.just-eat.co.uk/restaurants-mattys-bath/menu" rel="noopener">Just Eat</a></li>
+        <li><a href="https://deliveroo.co.uk/menu/bath/oldfield-park-north/mattys" rel="noopener">Deliveroo</a></li>
+        <li><a href="https://www.ubereats.com/gb/store/mattys-bath/rmVdmnzrUUyDnYwxHZ6m9Q" rel="noopener">Uber Eats</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="reviews" class="reviews wrap" aria-labelledby="reviews-h">
+    <div class="section-head reveal">
+      <p class="eyebrow">Word of mouth</p>
+      <h2 id="reviews-h">Don't take Matt's word for it</h2>
+    </div>
+    <div class="reviews-grid">
+      <blockquote class="reveal">
+        <p>Amazing quality, and to my mind an excellent price. I only wish I had thought of you earlier. I will certainly use you again and pass on my thoughts to my friends.</p>
+        <cite>First breakfast delivery</cite>
+      </blockquote>
+      <blockquote class="reveal">
+        <p>A wonderful full English which does not swim in fat. 10 out of 10 — and delivery to the front door, so even those who struggle to get up can have a cooked breakfast.</p>
+        <cite>Delivery regular</cite>
+      </blockquote>
+      <blockquote class="reveal">
+        <p>Impressed with the staff politeness on the phone, quick and friendly service, and the quality of the food! I will shout out a good word for you.</p>
+        <cite>Phone order</cite>
+      </blockquote>
+      <blockquote class="reveal">
+        <p>Loved the new healthy options — food cooked just as I requested, quick service and friendly staff. The Bigboy brekkie left me full all day.</p>
+        <cite>Bigboy convert</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="room" class="wrap" aria-labelledby="room-h">
+    <div class="section-head reveal">
+      <p class="eyebrow">The room &amp; garden</p>
+      <h2 id="room-h">Room for 120 — garden included</h2>
+    </div>
+    <div class="arches">
+      <figure class="arch-fig reveal">
+        <div class="frame"><img src="img/big-room.jpg" alt="The main room at Matty's, tables set and ready" loading="lazy" onerror="this.remove()" width="1200" height="1200"></div>
+        <figcaption>The big room</figcaption>
+      </figure>
+      <figure class="arch-fig reveal">
+        <div class="frame"><img src="img/garden-breakfast.jpg" alt="Two full English breakfasts on a table in the garden at Matty's" loading="lazy" onerror="this.remove()" width="484" height="634"></div>
+        <figcaption>Breakfast in the garden</figcaption>
+      </figure>
+      <figure class="arch-fig reveal">
+        <div class="frame"><img src="img/big-boy.jpg" alt="The Big Boy Breakfast: sausages, bacon, eggs, black pudding, mushrooms, hash browns and beans" loading="lazy" onerror="this.remove()" width="296" height="356"></div>
+        <figcaption>The Big Boy, ready to go</figcaption>
+      </figure>
+      <figure class="arch-fig reveal">
+        <div class="frame"><img src="img/busy-room.jpg" alt="A busy morning at Matty's, every table taken" loading="lazy" onerror="this.remove()" width="296" height="357"></div>
+        <figcaption>A Saturday morning</figcaption>
+      </figure>
+      <figure class="arch-fig reveal">
+        <div class="frame"><img src="img/counter.jpg" alt="The counter and handwritten chalkboard menus" loading="lazy" onerror="this.remove()" width="296" height="356"></div>
+        <figcaption>The specials boards</figcaption>
+      </figure>
+      <figure class="arch-fig reveal">
+        <div class="frame"><img src="img/espresso.jpg" alt="The espresso machine, cups stacked and ready" loading="lazy" onerror="this.remove()" width="296" height="357"></div>
+        <figcaption>The posh coffee corner</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="find" class="find" aria-labelledby="find-h">
+    <div class="wrap find-grid">
+      <div class="reveal">
+        <p class="eyebrow">Find us</p>
+        <h2 id="find-h">On Lower Bristol Road, by the river</h2>
+        <address class="address">
+          Matty's<br>
+          15 St Peter's Terrace<br>
+          Lower Bristol Road, Bath BA2 3BT<br>
+          <a href="tel:+441225444986">01225 444986</a> · <a href="https://www.facebook.com/p/Mattys-100057261738007/" rel="noopener">Facebook</a>
+        </address>
+        <ul class="walks">
+          <li><span class="min">2 MIN</span> from the riverside path along the Avon</li>
+          <li><span class="min">8 MIN</span> from Oldfield Park station</li>
+          <li><span class="min">10 MIN</span> walk from the city centre — or we deliver</li>
+        </ul>
+        <div class="find-photo reveal">
+          <img src="img/front.jpg" alt="Matty's storefront on Lower Bristol Road, with the branded delivery cars parked outside" loading="lazy" onerror="this.parentElement.remove()" width="296" height="357">
+        </div>
+      </div>
+      <div class="hours reveal">
+        <h3>Hours</h3>
+        <table>
+          <tbody>
+            <tr data-day="1"><td>Monday — Saturday</td><td>7.00 — 14.00</td></tr>
+            <tr data-day="0"><td>Sunday</td><td>8.00 — 13.00</td></tr>
+          </tbody>
+        </table>
+        <p>Delivery runs the same hours.<br>Open 363 days a year — we allow ourselves two days off at Christmas.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="wordmark" href="#top">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M15 95 V50 a35 35 0 0 1 70 0 V95 Z" fill="#C9973F"/></svg>
+      Matty's
+    </a>
+    <ul>
+      <li><a href="https://www.facebook.com/p/Mattys-100057261738007/" rel="noopener">Facebook</a></li>
+      <li><a href="tel:+441225444986">01225 444986</a></li>
+    </ul>
+    <p class="fine">© 2026 MATTY'S CAFE, BATH · OPEN 363 DAYS A YEAR · SOLE PROPRIETOR: MATT</p>
+  </div>
+</footer>
+
+<script>
+  // Reveal sections as they enter the viewport; respect reduced motion.
+  const motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (motionOK && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  } else {
+    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+  }
+
+  // Today's hours in the header pill and the hours table.
+  const day = new Date().getDay();
+  const pill = document.getElementById("openPill");
+  pill.textContent = "OPEN TODAY " + (day === 0 ? "8.00–13.00" : "7.00–14.00");
+  document.querySelector(`.hours tr[data-day="${day === 0 ? "0" : "1"}"]`)?.classList.add("today");
+</script>
+
+</body>
+</html>
